@@ -1,20 +1,15 @@
 import gradio as gr
-from transformers import pipeline
+from huggingface_hub import InferenceClient
 
-# Load free hosted model
-generator = pipeline(
-    "text-generation",
-    model="HuggingFaceH4/zephyr-7b-beta"
-)
+# Use hosted inference (no local model loading)
+client = InferenceClient("HuggingFaceH4/zephyr-7b-beta")
 
 def generate_product_spec(user_idea):
 
     prompt = f"""
 You are an expert Product Manager.
 
-Convert idea into structured product thinking.
-
-OUTPUT:
+Create structured product thinking output:
 
 ## Problem framing
 ## User personas
@@ -27,7 +22,10 @@ Idea:
 {user_idea}
 """
 
-    result = generator(prompt, max_new_tokens=400)[0]["generated_text"]
+    result = client.text_generation(
+        prompt,
+        max_new_tokens=300
+    )
 
     return result
 

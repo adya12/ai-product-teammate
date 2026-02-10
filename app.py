@@ -3,14 +3,15 @@ from transformers import pipeline
 import traceback
 
 # ------------------------------------------------
-# LOAD MODEL (auto-detect task)
+# LOAD MODEL
 # ------------------------------------------------
 
 try:
     print("Loading model...")
 
     generator = pipeline(
-        model="google/flan-t5-base"
+        "text-generation",
+        model="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     )
 
     print("Model loaded successfully.")
@@ -74,4 +75,6 @@ demo = gr.Interface(
 )
 
 demo.launch()
+
+
 

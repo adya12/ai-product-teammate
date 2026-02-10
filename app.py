@@ -1,6 +1,7 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
 import os
+import requests
 
 # -----------------------------
 # LOAD HF TOKEN
@@ -17,6 +18,7 @@ client = InferenceClient(
 # -----------------------------
 # MAIN FUNCTION
 # -----------------------------
+
 
 def generate_product_spec(user_idea):
 
@@ -38,17 +40,21 @@ Idea:
 {user_idea}
 """
 
-        result = client.text_generation(
-            prompt,
-            max_new_tokens=300
+        headers = {
+            "Authorization": f"Bearer {os.getenv('HF_TOKEN')}"
+        }
+
+        response = requests.post(
+            "https://api-inference.huggingface.co/models/google/flan-t5-large",
+            headers=headers,
+            json={"inputs": prompt}
         )
 
-        return result
+        # 🔥 THIS IS THE IMPORTANT PART
+        return f"STATUS CODE: {response.status_code}\n\nRESPONSE:\n{response.text}"
 
     except Exception as e:
-        # Show real error instead of generic "Error"
-        return f"DEBUG ERROR:\n{str(e)}"
-
+        return f"PYTHON ERROR:\n{str(e)}"
 # -----------------------------
 # GRADIO UI
 # -----------------------------

@@ -5,9 +5,10 @@ from huggingface_hub import InferenceClient
 import os
 
 client = InferenceClient(
-    "HuggingFaceH4/zephyr-7b-beta",
+    "google/flan-t5-large",
     token=os.environ.get("HF_TOKEN")
 )
+
 
 
 def generate_product_spec(user_idea):

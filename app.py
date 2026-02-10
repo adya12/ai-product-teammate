@@ -3,15 +3,13 @@ from transformers import pipeline
 import traceback
 
 # ------------------------------------------------
-# MODEL INITIALIZATION
+# LOAD MODEL (auto-detect task)
 # ------------------------------------------------
 
 try:
     print("Loading model...")
 
-    # Small fast model that works on free Spaces CPU
     generator = pipeline(
-        "text2text-generation",
         model="google/flan-t5-base"
     )
 
@@ -31,34 +29,31 @@ def generate_product_spec(user_idea):
     try:
 
         if generator is None:
-            return "ERROR: Model failed to load. Check container logs."
+            return "ERROR: Model failed to load. Check logs."
 
         prompt = f"""
 You are an expert Product Manager.
 
 Create structured product thinking output:
 
-## Problem framing
-## User personas
-## Metrics
-## Hypotheses
-## Experiments
-## Product Spec
+Problem framing
+User personas
+Metrics
+Hypotheses
+Experiments
+Product Spec
 
 Idea:
 {user_idea}
 """
 
-        result = generator(
-            prompt,
-            max_new_tokens=200
-        )
+        result = generator(prompt, max_new_tokens=200)
 
         return result[0]["generated_text"]
 
     except Exception as e:
-        # Show detailed error inside UI
-        error_message = f"""
+
+        return f"""
 DEBUG ERROR:
 
 {str(e)}
@@ -66,8 +61,6 @@ DEBUG ERROR:
 TRACEBACK:
 {traceback.format_exc()}
 """
-        print(error_message)
-        return error_message
 
 # ------------------------------------------------
 # UI
@@ -81,3 +74,4 @@ demo = gr.Interface(
 )
 
 demo.launch()
+

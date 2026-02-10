@@ -2,7 +2,13 @@ import gradio as gr
 from huggingface_hub import InferenceClient
 
 # Use hosted inference (no local model loading)
-client = InferenceClient("HuggingFaceH4/zephyr-7b-beta")
+import os
+
+client = InferenceClient(
+    "HuggingFaceH4/zephyr-7b-beta",
+    token=os.environ.get("HF_TOKEN")
+)
+
 
 def generate_product_spec(user_idea):
 

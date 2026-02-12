@@ -1,80 +1,65 @@
 import gradio as gr
-from transformers import pipeline
-import traceback
+import requests
+import os
 
-# ------------------------------------------------
-# LOAD MODEL
-# ------------------------------------------------
-
-try:
-    print("Loading model...")
-
-    generator = pipeline(
-        "text-generation",
-        model="TinyLlama/TinyLlama-1.1B-Chat-v1.0"
-    )
-
-    print("Model loaded successfully.")
-
-except Exception as e:
-    print("MODEL LOAD ERROR:")
-    print(traceback.format_exc())
-    generator = None
-
-# ------------------------------------------------
-# MAIN FUNCTION
-# ------------------------------------------------
+# Load API key
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def generate_product_spec(user_idea):
 
     try:
 
-        if generator is None:
-            return "ERROR: Model failed to load. Check logs."
+        url = "https://api.groq.com/openai/v1/chat/completions"
+
+        headers = {
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
         prompt = f"""
-You are an expert Product Manager.
+You are a senior AI-native Product Manager at a fintech company like Square.
 
-Create structured product thinking output:
+Think step-by-step before answering.
 
-Problem framing
-User personas
-Metrics
-Hypotheses
-Experiments
-Product Spec
+OUTPUT STRUCTURE:
 
-Idea:
+## Problem Framing
+## Key User Personas
+## Core Metrics
+## Hypotheses
+## Solution Strategy
+## Recommended Experiments
+## Product Recommendations (Must / Should / Could)
+
+USER IDEA:
 {user_idea}
 """
 
-        result = generator(prompt, max_new_tokens=200)
+        payload = {
+            "model": "llama3-8b-8192",
+            "messages": [
+                {"role": "system", "content": "You are an expert product manager."},
+                {"role": "user", "content": prompt}
+            ]
+        }
 
-        return result[0]["generated_text"]
+        response = requests.post(url, headers=headers, json=payload)
+
+        result = response.json()
+
+        return result["choices"][0]["message"]["content"]
 
     except Exception as e:
+        return f"ERROR:\n{str(e)}"
 
-        return f"""
-DEBUG ERROR:
-
-{str(e)}
-
-TRACEBACK:
-{traceback.format_exc()}
-"""
-
-# ------------------------------------------------
-# UI
-# ------------------------------------------------
 
 demo = gr.Interface(
     fn=generate_product_spec,
-    inputs=gr.Textbox(label="Enter your messy idea"),
+    inputs=gr.Textbox(label="Enter your messy product idea"),
     outputs="text",
     title="AI Product Teammate"
 )
 
 demo.launch()
-
 
 

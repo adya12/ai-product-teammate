@@ -2,8 +2,16 @@ import gradio as gr
 import requests
 import os
 
-# Load API key
+# ----------------------------------------
+# Load API key from HuggingFace Secrets
+# ----------------------------------------
+
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+
+# ----------------------------------------
+# Main function
+# ----------------------------------------
 
 def generate_product_spec(user_idea):
 
@@ -47,11 +55,22 @@ USER IDEA:
 
         result = response.json()
 
+        # DEBUG: print full API response in container logs
+        print("FULL RESPONSE:", result)
+
+        # Handle API errors safely
+        if "choices" not in result:
+            return f"API ERROR:\n{result}"
+
         return result["choices"][0]["message"]["content"]
 
     except Exception as e:
         return f"ERROR:\n{str(e)}"
 
+
+# ----------------------------------------
+# Gradio UI
+# ----------------------------------------
 
 demo = gr.Interface(
     fn=generate_product_spec,
@@ -61,5 +80,6 @@ demo = gr.Interface(
 )
 
 demo.launch()
+
 
 

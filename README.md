@@ -7,9 +7,7 @@ sdk: gradio
 sdk_version: 6.5.1
 app_file: app.py
 pinned: true
-thumbnail: >-
-  https://cdn-uploads.huggingface.co/production/uploads/698ad29f64acbfdb474200f0/iL94fkcbuJLZh9gbFQ4IB.png
-short_description: A
+link: https://huggingface.co/spaces/atrisal/ai-product-teammate
 ---
 # AI Product Teammate — Idea → Product Spec Generator
 

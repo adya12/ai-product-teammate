@@ -47,6 +47,16 @@ OUTPUT STRUCTURE:
 ## Recommended Experiments
 ## Product Recommendations (Must / Should / Could)
 
+Additional requirements:
+
+- Think like a senior product manager at Square, not a machine learning engineer.
+- Focus on workflow design and decision systems rather than model architecture.
+- Describe how the product changes user experience dynamically.
+- Use behavioral segmentation grounded in measurable signals.
+- Avoid suggesting unrealistic fintech changes (e.g., pricing changes controlled by financial institutions).
+- Emphasize practical implementation that could be shipped by a real product team.
+
+
 USER IDEA:
 {user_idea}
 

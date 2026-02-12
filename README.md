@@ -6,9 +6,9 @@ colorTo: pink
 sdk: gradio
 sdk_version: 6.5.1
 app_file: app.py
-pinned: false
+pinned: true
 thumbnail: >-
-  https://cdn-uploads.huggingface.co/production/uploads/698ad29f64acbfdb474200f0/X95qjDJisBWJVRVFAKIHo.png
+  https://cdn-uploads.huggingface.co/production/uploads/698ad29f64acbfdb474200f0/iL94fkcbuJLZh9gbFQ4IB.png
 short_description: A
 ---
 # AI Product Teammate — Idea → Product Spec Generator

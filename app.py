@@ -25,22 +25,31 @@ def generate_product_spec(user_idea):
         }
 
         prompt = f"""
-You are a senior AI-native Product Manager at a fintech company like Square.
+You are a senior product manager at Square designing AI-native fintech products.
 
-Think step-by-step before answering.
+Think deeply before answering.
+
+IMPORTANT REQUIREMENTS:
+- Avoid generic personas like “merchant” or “customer”; instead use behavioral or risk-based personas.
+- Explain the mechanism of how AI changes decision-making or workflow.
+- Explicitly discuss tradeoffs between fraud prevention, approval rate, and revenue.
+- Avoid buzzwords; focus on operational reality.
+- Think about how this would work at scale for thousands of merchants.
 
 OUTPUT STRUCTURE:
 
 ## Problem Framing
-## Key User Personas
-## Core Metrics
-## Hypotheses
+## Behavioral User Segments
+## Core Metrics (including risk metrics)
+## Key Tradeoffs
+## AI Mechanism (how the system works)
 ## Solution Strategy
 ## Recommended Experiments
 ## Product Recommendations (Must / Should / Could)
 
 USER IDEA:
-{user_idea}
+{IDEA}
+
 """
 
         payload = {

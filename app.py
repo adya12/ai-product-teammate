@@ -48,7 +48,7 @@ OUTPUT STRUCTURE:
 ## Product Recommendations (Must / Should / Could)
 
 USER IDEA:
-{IDEA}
+{user_idea}
 
 """
 
